@@ -14,6 +14,7 @@ const STEP_DEFS = [
 ];
 
 const CURRENT_STEP_KEY = { menunggu: "diterima", diproses: "dibeli", diantar: "perjalanan" };
+const STEP_TIMESTAMP_FIELD = { diterima: "createdAt", dibeli: "diprosesAt", perjalanan: "diantarAt", selesai: "selesaiAt" };
 
 function formatRupiah(n) {
   return "Rp" + Number(n || 0).toLocaleString("id-ID");
@@ -30,7 +31,7 @@ function buildTimelineHtml(order) {
 
   return STEP_DEFS.map((step, i) => {
     const state = i < currentIndex ? "done" : i === currentIndex ? "active" : "upcoming";
-    const time = i === 0 ? formatJam(order.createdAt) : "-";
+    const time = formatJam(order[STEP_TIMESTAMP_FIELD[step.key]]);
     return `
       <div class="lacak-step lacak-step-${state}">
         <div class="lacak-step-line"></div>
