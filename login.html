@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Masuk — SuruhBeli</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="login.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+<body>
+
+  <div class="blob blob-top"></div>
+  <div class="blob blob-bottom"></div>
+
+  <main class="page">
+
+    <div class="brand">
+      <img src="logo.png" alt="SuruhBeli" class="brand-logo" />
+      <h1 class="brand-name"><span class="brand-suruh">Suruh</span><span class="brand-beli">Beli</span></h1>
+      <p class="brand-tagline">Males keluar? <span>SuruhBeli</span> aja.</p>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">Selamat datang!</h2>
+      <p class="card-subtitle">Masuk untuk melanjutkan</p>
+
+      <form id="login-form" novalidate>
+
+        <div class="field">
+          <span class="field-icon">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 6.5C3 5.67 3.67 5 4.5 5h15c.83 0 1.5.67 1.5 1.5v11c0 .83-.67 1.5-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5v-11Z" stroke="currentColor" stroke-width="1.7"/><path d="m4 6.5 8 6.2 8-6.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <input type="email" id="email" name="email" placeholder="Email" autocomplete="email" inputmode="email" required />
+        </div>
+
+        <div class="field">
+          <span class="field-icon">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="10.5" width="14" height="9.5" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          </span>
+          <input type="password" id="password" name="password" placeholder="Password" autocomplete="current-password" required />
+          <button type="button" class="field-toggle" id="toggle-password" aria-label="Tampilkan password">
+            <svg viewBox="0 0 24 24" fill="none" id="eye-icon"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/></svg>
+          </button>
+        </div>
+
+        <div class="row-between">
+          <label class="checkbox">
+            <input type="checkbox" id="remember-me" />
+            <span>Ingat saya</span>
+          </label>
+          <button type="button" id="forgot-password" class="link">Lupa password?</button>
+        </div>
+
+        <p class="form-error" id="form-error" role="alert" hidden></p>
+
+        <button type="submit" class="btn-primary" id="submit-btn">
+          <span id="submit-label">Masuk</span>
+        </button>
+
+        <div class="divider"><span>atau masuk dengan</span></div>
+
+        <div class="social-row">
+          <button type="button" class="social-btn" id="google-btn" aria-label="Masuk dengan Google">
+            <svg viewBox="0 0 48 48" width="20" height="20"><path fill="#EA4335" d="M24 9.5c3.4 0 6.4 1.2 8.8 3.5l6.6-6.6C35.3 2.5 30 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.7 6C12.1 13.1 17.5 9.5 24 9.5Z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.6c-.5 3-2.2 5.5-4.7 7.2l7.3 5.6c4.3-4 6.8-9.8 6.8-17.3Z"/><path fill="#FBBC05" d="M10.3 19.2a14.6 14.6 0 0 0 0 9.6l-7.7 6a24 24 0 0 1 0-21.6l7.7 6Z"/><path fill="#34A853" d="M24 48c6 0 11.3-2 15-5.4l-7.3-5.6c-2 1.4-4.6 2.2-7.7 2.2-6.5 0-12-4.4-13.9-10.4l-7.7 6C6.5 42.6 14.6 48 24 48Z"/></svg>
+          </button>
+          <button type="button" class="social-btn" id="phone-btn" aria-label="Masuk dengan nomor HP">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4.5 3h3.3l1.4 5-2.3 1.5a12 12 0 0 0 6.6 6.6l1.5-2.3 5 1.4v3.3c0 1-.8 1.7-1.8 1.6C9.9 19.5 4.5 14.1 3 5.8 2.9 4.8 3.6 3 4.5 3Z" stroke="#E85C0D" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+
+        <p class="signup-line">Belum punya akun? <a href="register.html">Daftar sekarang</a></p>
+
+      </form>
+    </div>
+
+    <div class="trust-row">
+      <div class="trust-item">
+        <span class="trust-icon"><i class="fa-solid fa-shield-halved"></i></span>
+        <div>
+          <strong>Aman</strong>
+          <p>Transaksi terlindungi</p>
+        </div>
+      </div>
+      <div class="trust-item">
+        <span class="trust-icon"><i class="fa-solid fa-bolt"></i></span>
+        <div>
+          <strong>Cepat</strong>
+          <p>Kami belikan dan antar</p>
+        </div>
+      </div>
+      <div class="trust-item">
+        <span class="trust-icon"><i class="fa-solid fa-award"></i></span>
+        <div>
+          <strong>Terpercaya</strong>
+          <p>Kurir lokal di daerahmu</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <div id="recaptcha-container"></div>
+
+  <div class="modal-overlay" id="phone-modal" hidden>
+    <div class="modal-card">
+      <button type="button" class="modal-close" id="phone-modal-close" aria-label="Tutup">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div id="phone-step-number">
+        <h3 class="modal-title">Masuk dengan Nomor HP</h3>
+        <p class="modal-subtitle">Kami akan kirim kode OTP lewat SMS</p>
+        <div class="field">
+          <span class="field-icon"><i class="fa-solid fa-phone"></i></span>
+          <input type="tel" id="phone-number" placeholder="08xxxxxxxxxx" inputmode="numeric" />
+        </div>
+        <p class="form-error" id="phone-error" role="alert" hidden></p>
+        <button type="button" class="btn-primary" id="send-otp-btn">
+          <span id="send-otp-label">Kirim Kode OTP</span>
+        </button>
+      </div>
+
+      <div id="phone-step-otp" hidden>
+        <h3 class="modal-title">Masukkan Kode OTP</h3>
+        <p class="modal-subtitle">Kode dikirim ke <strong id="phone-display"></strong></p>
+        <div class="field">
+          <span class="field-icon"><i class="fa-solid fa-key"></i></span>
+          <input type="text" id="otp-code" placeholder="123456" inputmode="numeric" maxlength="6" />
+        </div>
+        <p class="form-error" id="otp-error" role="alert" hidden></p>
+        <button type="button" class="btn-primary" id="verify-otp-btn">
+          <span id="verify-otp-label">Verifikasi</span>
+        </button>
+        <button type="button" class="link modal-back" id="back-to-phone">Ganti nomor HP</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="login.js"></script>
+  <div id="devConsoleMount"></div>
+<script src="devconsole.js"></script>
+</body>
+</html>

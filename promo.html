@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<title>Voucher & Promo — SuruhBeli</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<style>
+  :root {
+    --ink: #2B1B10;
+    --ink-soft: #6B5541;
+    --orange: #E85C0D;
+    --orange-deep: #C24A08;
+    --orange-soft: #FDE3CE;
+    --line: #E8D5B8;
+    --bg: #FFF8F0;
+  }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  
+  html, body {
+    width: 100%;
+    min-height: 100%;
+    font-family: Poppins, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  .wrap { max-width: 480px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 16px;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 5;
+    border-bottom: 1px solid var(--line);
+  }
+  .back-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+    font-size: 15px;
+    cursor: pointer;
+    flex: none;
+    box-shadow: 0 4px 10px rgba(43, 27, 16, 0.08);
+  }
+  .topbar h1 {
+    font-family: "Fredoka", sans-serif;
+    font-weight: 700;
+    font-size: 19px;
+  }
+
+  .empty-state {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px 32px 60px;
+  }
+
+  .empty-illustration {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .empty-illustration::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--orange-soft) 0%, rgba(253, 227, 206, 0) 70%);
+  }
+  .empty-illustration img {
+    position: relative;
+    z-index: 1;
+    max-width: 78%;
+    max-height: 78%;
+    object-fit: contain;
+  }
+  .empty-illustration .badge-icon {
+    position: absolute;
+    z-index: 2;
+    top: 6px;
+    right: 6px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--orange-deep);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 8px 16px rgba(194, 74, 8, 0.35);
+    transform: rotate(12deg);
+  }
+
+  .empty-state h2 {
+    font-family: "Fredoka", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  .empty-state p {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    max-width: 300px;
+    margin-bottom: 28px;
+  }
+
+  .notify-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--orange), var(--orange-deep));
+    color: #fff;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-weight: 700;
+    font-size: 13.5px;
+    padding: 14px 26px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 12px 24px -8px rgba(194, 74, 8, 0.4);
+  }
+  .notify-btn:disabled { opacity: 0.7; cursor: default; }
+
+  .notify-hint {
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  .perks-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 32px;
+    width: 100%;
+    max-width: 340px;
+  }
+  .perk-item {
+    flex: 1;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 8px;
+    text-align: center;
+  }
+  .perk-item i {
+    font-size: 16px;
+    color: var(--orange-deep);
+    margin-bottom: 6px;
+    display: block;
+  }
+  .perk-item span {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    display: block;
+    line-height: 1.3;
+  }
+</style>
+</head>
+<body>
+
+  <div class="wrap">
+    <div class="topbar">
+      <button class="back-btn" onclick="window.history.back()"><i class="fa-solid fa-arrow-left"></i></button>
+      <h1>Voucher &amp; Promo</h1>
+    </div>
+
+    <div class="empty-state">
+      <div class="empty-illustration">
+        <img src="hero.png" alt="SuruhBeli" onerror="this.onerror=null;this.src='logo.png';" />
+        <div class="badge-icon"><i class="fa-solid fa-ticket"></i></div>
+      </div>
+
+      <h2>Belum Ada Promo Saat Ini</h2>
+      <p>Voucher dan promo menarik lagi kami siapkan. Pantau terus halaman ini biar gak ketinggalan diskon jastip-mu!</p>
+
+      <button class="notify-btn" id="notify-btn">
+        <i class="fa-solid fa-bell"></i>
+        <span>Ingatkan Saya</span>
+      </button>
+      <p class="notify-hint" id="notify-hint">Kami bakal kabari begitu promo pertama tayang.</p>
+
+      <div class="perks-row">
+        <div class="perk-item">
+          <i class="fa-solid fa-percent"></i>
+          <span>Diskon Biaya Jasa</span>
+        </div>
+        <div class="perk-item">
+          <i class="fa-solid fa-gift"></i>
+          <span>Kode Voucher</span>
+        </div>
+        <div class="perk-item">
+          <i class="fa-solid fa-star"></i>
+          <span>Promo Member</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const notifyBtn = document.getElementById("notify-btn");
+    const notifyHint = document.getElementById("notify-hint");
+    notifyBtn.addEventListener("click", () => {
+      notifyBtn.disabled = true;
+      notifyBtn.querySelector("span").textContent = "Kamu Akan Diingatkan";
+      notifyHint.textContent = "Sip! Kamu bakal jadi yang pertama tahu pas promo tayang.";
+    });
+  </script>
+
+</body>
+</html>

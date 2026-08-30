@@ -1,0 +1,86 @@
+/* buat-akun.css */
+
+.ba-wrap {
+  padding: 24px 16px;
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+.ba-hero {
+  margin: -24px -16px 18px;
+  line-height: 0;
+}
+.ba-hero img {
+  width: 100%;
+  display: block;
+}
+
+.ba-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 22px 18px;
+  box-shadow: 0 16px 32px -20px rgba(43, 27, 16, 0.3);
+}
+
+.ba-title {
+  font-family: "Fredoka", sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--ink);
+  margin: 0 0 4px;
+}
+
+.ba-subtitle {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin: 0 0 18px;
+  line-height: 1.4;
+}
+
+.ba-field {
+  display: block;
+  margin-bottom: 14px;
+}
+.ba-field span {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.ba-field input,
+.ba-field textarea {
+  width: 100%;
+  border: 1.5px solid var(--line);
+  background: var(--paper);
+  border-radius: 10px;
+  padding: 12px 13px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 15px;
+  color: var(--ink);
+  outline: none;
+}
+.ba-field textarea {
+  min-height: 76px;
+  resize: vertical;
+}
+.ba-field input:focus,
+.ba-field textarea:focus {
+  border-color: var(--orange);
+}
+.ba-field .ba-hint {
+  font-size: 11.5px;
+  font-weight: 400;
+  color: var(--ink-soft);
+  margin: 6px 0 0;
+}
+
+.ba-error {
+  background: #f8e2e2;
+  color: var(--red);
+  font-size: 13px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin: 0 0 14px;
+}

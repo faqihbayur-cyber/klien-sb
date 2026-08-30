@@ -1,0 +1,369 @@
+/* lacak.css */
+
+.lacak-wrap {
+  padding: 20px 16px 100px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.lacak-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.lacak-icon-btn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(43, 27, 16, 0.08);
+}
+.lacak-bell-dot {
+  position: absolute;
+  top: 8px;
+  right: 9px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--red);
+}
+
+.lacak-headings { margin-bottom: 20px; }
+.lacak-headings h1 {
+  font-family: "Fredoka", sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--ink);
+  margin: 0 0 4px;
+}
+.lacak-headings p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.lacak-loading {
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 13.5px;
+  padding: 40px 0;
+}
+
+.lacak-error {
+  background: #f8e2e2;
+  color: var(--red);
+  font-size: 13px;
+  padding: 12px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.lacak-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--ink-soft);
+}
+.lacak-empty-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: var(--orange-soft);
+  color: var(--orange-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+.lacak-empty p { font-size: 13.5px; margin: 0; }
+
+.lacak-order { margin-bottom: 20px; }
+
+.lacak-info-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 16px 32px -24px rgba(43, 27, 16, 0.3);
+  margin-bottom: 14px;
+}
+
+.lacak-info-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.lacak-info-label { font-size: 12px; color: var(--ink-soft); }
+
+.lacak-order-id {
+  font-family: "Fredoka", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--orange-deep);
+  margin: 2px 0 0;
+}
+
+.lacak-badge {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.lacak-items {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 14px;
+  color: var(--ink);
+  margin: 0 0 6px;
+  line-height: 1.4;
+}
+
+.lacak-blok {
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.lacak-eta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px dashed var(--line);
+  padding-top: 14px;
+  color: var(--ink-soft);
+  font-size: 16px;
+}
+.lacak-eta-label { font-size: 12px; color: var(--ink-soft); display: block; }
+.lacak-eta-value {
+  font-family: "Fredoka", sans-serif;
+  font-weight: 600;
+  font-size: 14.5px;
+  color: var(--ink);
+  margin: 2px 0 0;
+}
+
+.lacak-map {
+  position: relative;
+  height: 160px;
+  border-radius: 18px;
+  background:
+    repeating-linear-gradient(0deg, #eef1ef, #eef1ef 22px, #e6e9e6 23px),
+    repeating-linear-gradient(90deg, #eef1ef, #eef1ef 22px, #e6e9e6 23px);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+.lacak-map-route {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.lacak-map-driver {
+  position: absolute;
+  left: 30px;
+  top: 28px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 8px 16px rgba(43, 27, 16, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--orange-deep);
+  font-size: 20px;
+}
+.lacak-map-dest {
+  position: absolute;
+  right: 32px;
+  bottom: 26px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(45deg);
+  background: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 16px rgba(43, 27, 16, 0.25);
+}
+.lacak-map-dest i { transform: rotate(-45deg); color: #fff; font-size: 15px; }
+
+.lacak-timeline {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.lacak-step {
+  position: relative;
+  display: flex;
+  gap: 14px;
+  padding-bottom: 22px;
+}
+.lacak-step:last-child { padding-bottom: 0; }
+
+.lacak-step-line {
+  position: absolute;
+  left: 17px;
+  top: 36px;
+  bottom: 0;
+  width: 2px;
+  background: var(--line);
+}
+.lacak-step:last-child .lacak-step-line { display: none; }
+
+.lacak-step-icon {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  background: #eee;
+  color: #a9a29a;
+}
+.lacak-step-active .lacak-step-icon { background: var(--orange-deep); color: #fff; }
+.lacak-step-done .lacak-step-icon { background: #d8d3ca; color: #6B5541; }
+
+.lacak-step-body { flex: 1; padding-top: 2px; }
+.lacak-step-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.lacak-step-title {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink);
+}
+.lacak-step-upcoming .lacak-step-title,
+.lacak-step-upcoming .lacak-step-desc { color: #b7b0a6; }
+.lacak-step-time { font-size: 12px; color: var(--ink-soft); }
+.lacak-step-desc { font-size: 12.5px; color: var(--ink-soft); margin: 2px 0 0; }
+
+.lacak-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+}
+
+.lacak-fee {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12.5px;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.lacak-cancel-btn {
+  background: none;
+  border: 1.5px solid #f3d3d3;
+  color: var(--red);
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 7px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.lacak-cancel-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.lacak-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(43, 27, 16, 0.45);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.lacak-confirm-overlay[hidden] { display: none; }
+
+.lacak-confirm-card {
+  width: 100%;
+  max-width: 320px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px 20px;
+  text-align: center;
+  box-shadow: 0 24px 48px -20px rgba(0, 0, 0, 0.4);
+}
+
+.lacak-confirm-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: #f8e2e2;
+  color: var(--red);
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+}
+
+.lacak-confirm-card h3 {
+  font-family: "Fredoka", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--ink);
+  margin: 0 0 20px;
+  line-height: 1.4;
+}
+
+.lacak-confirm-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.lacak-confirm-cancel,
+.lacak-confirm-yes {
+  flex: 1;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 700;
+  font-size: 13.5px;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.lacak-confirm-cancel {
+  background: #fff;
+  border: 1.5px solid var(--line);
+  color: var(--ink);
+}
+
+.lacak-confirm-yes {
+  background: var(--red);
+  border: 1.5px solid var(--red);
+  color: #fff;
+}

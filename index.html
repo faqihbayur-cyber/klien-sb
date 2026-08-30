@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<!-- PWA Meta -->
+<meta name="theme-color" content="#b3874f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TTN Marketing">
+<title>SuruhBeli</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700;800&family=Permanent+Marker&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+<link rel="stylesheet" href="index.css" />
+<link rel="stylesheet" href="home.css" />
+<link rel="stylesheet" href="lacak.css" />
+<link rel="stylesheet" href="riwayat.css" />
+<link rel="stylesheet" href="profil.css" />
+<link rel="stylesheet" href="buat-akun.css" />
+<link rel="stylesheet" href="order.css" />
+</head>
+<body>
+
+  <div id="app-loading" class="app-loading">
+    <div class="home-wrap">
+      <div class="skel-hero">
+        <div class="skel-topbar">
+          <div class="skel-brand">
+            <div class="skel-box skel-logo"></div>
+            <div class="skel-line skel-line-brand"></div>
+          </div>
+          <div class="skel-circle skel-avatar"></div>
+        </div>
+        <div class="skel-greeting">
+          <div class="skel-line skel-line-title"></div>
+          <div class="skel-line skel-line-sub"></div>
+        </div>
+      </div>
+
+      <div class="skel-card">
+        <div class="skel-line skel-line-card-title"></div>
+        <div class="skel-line skel-line-card-sub"></div>
+        <div class="skel-btn"></div>
+      </div>
+
+      <div class="skel-trust-row">
+        <div class="skel-trust-item"><div class="skel-circle skel-trust-icon"></div><div class="skel-line skel-line-trust"></div></div>
+        <div class="skel-trust-item"><div class="skel-circle skel-trust-icon"></div><div class="skel-line skel-line-trust"></div></div>
+        <div class="skel-trust-item"><div class="skel-circle skel-trust-icon"></div><div class="skel-line skel-line-trust"></div></div>
+        <div class="skel-trust-item"><div class="skel-circle skel-trust-icon"></div><div class="skel-line skel-line-trust"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <main id="view-root" class="view-root">
+    <section id="view-home" class="view-section"></section>
+    <section id="view-lacak" class="view-section"></section>
+    <section id="view-riwayat" class="view-section"></section>
+    <section id="view-profil" class="view-section"></section>
+    <section id="view-buat-akun" class="view-section"></section>
+    <section id="view-order" class="view-section"></section>
+  </main>
+
+  <nav id="bottom-nav" class="bottom-nav" hidden>
+    <button class="nav-btn" data-route="home">
+      <i class="fa-solid fa-house"></i>
+      <span>Beranda</span>
+    </button>
+    <button class="nav-btn" data-route="lacak">
+      <i class="fa-solid fa-location-dot"></i>
+      <span>Lacak</span>
+    </button>
+    <button class="nav-btn" data-route="riwayat">
+      <i class="fa-solid fa-clock-rotate-left"></i>
+      <span>Riwayat</span>
+    </button>
+  </nav>
+
+  <script src="ui-feedback.js"></script>
+  <script type="module" src="index.js"></script>
+  <div id="devConsoleMount"></div>
+  <script src="devconsole.js"></script>
+</body>
+</html>
