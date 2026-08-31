@@ -8,6 +8,16 @@
 const loadingEl = document.getElementById("app-loading");
 const navEl = document.getElementById("bottom-nav");
 
+// Daftarkan service worker (PWA) — dilakukan terpisah dari alur Firebase
+// supaya kalau gagal, gak sampai bikin seluruh app gagal load.
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch((err) => {
+      console.warn("[sw] gagal daftar service worker:", err);
+    });
+  });
+}
+
 function showFatalError(step, err) {
   console.error("SuruhBeli gagal memuat pada tahap:", step, err);
   loadingEl.innerHTML = `
