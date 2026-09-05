@@ -101,8 +101,14 @@ html, body {
   padding: 0 4px max(0px, env(safe-area-inset-bottom));
   box-sizing: border-box;
   z-index: 20;
+  transition: transform 0.28s ease, opacity 0.28s ease;
 }
 .bottom-nav[hidden] { display: none; }
+.bottom-nav-hide {
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+}
 
 .nav-btn {
   flex: 1;
@@ -212,4 +218,17 @@ html, body {
 .global-confirm-ok {
   background: linear-gradient(135deg, var(--orange), var(--orange-deep));
   color: #fff;
+}
+
+.notif-perm-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--orange-soft);
+  color: var(--orange-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin: 0 auto 16px;
 }

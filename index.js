@@ -1,20 +1,23 @@
-// index.js — router + Firebase (global untuk seluruh app)
-//
-// Semua import ditulis dinamis (import() di dalam try/catch) supaya kalau
-// ada file yang gagal dimuat (404, typo nama file, dsb), errornya bisa
-// ditangkap dan ditampilkan LANGSUNG DI LAYAR — penting karena di HP
-// tidak semudah desktop untuk buka Console DevTools.
 
 const loadingEl = document.getElementById("app-loading");
 const navEl = document.getElementById("bottom-nav");
 
-// Daftarkan service worker (PWA) — dilakukan terpisah dari alur Firebase
-// supaya kalau gagal, gak sampai bikin seluruh app gagal load.
+let messagingSwRegistration = null;
+
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("./sw.js").catch((err) => {
       console.warn("[sw] gagal daftar service worker:", err);
     });
+
+    navigator.serviceWorker
+      .register("./firebase-messaging-sw.js")
+      .then((reg) => {
+        messagingSwRegistration = reg;
+      })
+      .catch((err) => {
+        console.warn("[fcm-sw] gagal daftar service worker notifikasi:", err);
+      });
   });
 }
 
@@ -35,10 +38,88 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
+function showNotifPermissionPrompt() {
+  return new Promise((resolve) => {
+    const overlay = document.createElement("div");
+    overlay.className = "global-confirm-overlay";
+    overlay.innerHTML = `
+      <div class="global-confirm-card">
+        <div class="notif-perm-icon"><i class="fa-solid fa-bell"></i></div>
+        <p class="global-confirm-message">Aktifkan notifikasi biar kamu langsung tau begitu driver mengambil, mengantar, atau menyelesaikan pesananmu — juga kalau ada pesan chat masuk.</p>
+        <div class="global-confirm-actions">
+          <button type="button" class="global-confirm-cancel" id="notif-perm-cancel">Nanti Dulu</button>
+          <button type="button" class="global-confirm-ok" id="notif-perm-allow">Aktifkan</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    overlay.querySelector("#notif-perm-allow").addEventListener("click", () => {
+      overlay.remove();
+      resolve(true);
+    });
+    overlay.querySelector("#notif-perm-cancel").addEventListener("click", () => {
+      overlay.remove();
+      resolve(false);
+    });
+  });
+}
+
+// VAPID key dari Firebase Console -> Project Settings -> Cloud Messaging -> Web Push certificates
+const FCM_VAPID_KEY = "BG5NmD3dHw39MiYejAlxHLHhdmgKW_4txGVw_NX53jjaGqgFZIMBoPjcHIMHUZgIi6dIiMlquY2lMbnEDd20YUU";
+
+async function setupPushNotifications(firebaseApp, db, uid) {
+  try {
+    if (!("Notification" in window) || !("serviceWorker" in navigator)) return;
+
+    if (Notification.permission === "denied") return;
+
+    if (Notification.permission === "default") {
+      const mauAktifin = await showNotifPermissionPrompt();
+      if (!mauAktifin) return;
+    }
+
+    const permission = await Notification.requestPermission();
+    if (permission !== "granted") {
+      console.warn("[fcm] izin notifikasi ditolak/diabaikan.");
+      return;
+    }
+
+    const messagingModule = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js");
+    const messaging = messagingModule.getMessaging(firebaseApp);
+
+    const swReg =
+      messagingSwRegistration ||
+      (await navigator.serviceWorker.getRegistration("./firebase-messaging-sw.js"));
+
+    const token = await messagingModule.getToken(messaging, {
+      vapidKey: FCM_VAPID_KEY,
+      serviceWorkerRegistration: swReg,
+    });
+
+    if (token) {
+      const { doc, updateDoc } = await import(
+        "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
+      );
+      await updateDoc(doc(db, "users", uid), { fcmToken: token });
+    }
+
+    messagingModule.onMessage(messaging, (payload) => {
+      const title = payload.notification?.title || "SuruhBeli";
+      const body = payload.notification?.body || "";
+      if (typeof window.showToast === "function") {
+        window.showToast(`${title} — ${body}`);
+      }
+    });
+  } catch (err) {
+    console.warn("[fcm] gagal setup push notification:", err);
+  }
+}
+
 async function main() {
   let firebaseApp, firebaseAuth, firebaseDb;
   let getAuth, onAuthStateChanged, signOut, getFirestore;
-  let homeView, lacakView, riwayatView, profilView, buatAkunView, orderView;
+  let homeView, lacakView, riwayatView, profilView, buatAkunView, orderView, chatListView, chatRoomView;
 
   // Tahap 1: load SDK Firebase dari CDN
   try {
@@ -74,6 +155,8 @@ async function main() {
     profilView = await import("./profil.js");
     buatAkunView = await import("./buat-akun.js");
     orderView = await import("./order.js");
+    chatListView = await import("./chat-list.js");
+    chatRoomView = await import("./chat-room.js");
   } catch (err) {
     showFatalError("memuat file view (home.js/lacak.js/riwayat.js/profil.js — cek nama file & lokasinya harus sejajar dengan index.html)", err);
     return;
@@ -86,6 +169,8 @@ async function main() {
     profil: profilView,
     "buat-akun": buatAkunView,
     order: orderView,
+    "chat-list": chatListView,
+    "chat-room": chatRoomView,
   };
 
   let currentUser = null;
@@ -145,6 +230,8 @@ async function main() {
         currentUser = user;
         navEl.hidden = false;
         loadingEl.hidden = true;
+
+        setupPushNotifications(firebaseApp, firebaseDb, user.uid);
 
         router();
       } catch (err) {

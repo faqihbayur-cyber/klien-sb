@@ -48,7 +48,100 @@ function buildTimelineHtml(order) {
   }).join("");
 }
 
+import { setActiveChat } from "./chat-state.js";
+
 let unsubscribe = null;
+let mapInstances = new Map(); // orderId -> { map, driverMarker, destMarker }
+
+function destroyMap(orderId) {
+  const entry = mapInstances.get(orderId);
+  if (entry) {
+    entry.map.remove();
+    mapInstances.delete(orderId);
+  }
+}
+
+function renderOrderMap(order) {
+  const container = document.getElementById(`lacak-map-${order.id}`);
+  if (!container) return;
+
+  const hasDriverPos = typeof order.driverLat === "number" && typeof order.driverLng === "number";
+  const hasDestPos = typeof order.lat === "number" && typeof order.lng === "number";
+
+  if (!hasDriverPos) {
+    // Belum ada posisi driver — jangan render map, cukup pesan
+    destroyMap(order.id);
+    container.innerHTML = `<div class="lacak-map-waiting"><i class="fa-solid fa-satellite-dish"></i> Menunggu posisi driver...</div>`;
+    return;
+  }
+
+  const driverPos = [order.driverLat, order.driverLng];
+  const destPos = hasDestPos ? [order.lat, order.lng] : driverPos;
+
+  let entry = mapInstances.get(order.id);
+
+  if (!entry) {
+    container.innerHTML = ""; // pastikan bersih dari pesan "menunggu" sebelumnya
+    const map = L.map(container, { zoomControl: false, attributionControl: false }).setView(driverPos, 15);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19 }).addTo(map);
+
+    const driverIcon = L.icon({
+      iconUrl: "pin.png",
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
+    const destIcon = L.divIcon({
+      className: "lacak-map-dest-icon",
+      html: `<div class="lacak-map-dest"><i class="fa-solid fa-house"></i></div>`,
+      iconSize: [34, 34],
+      iconAnchor: [17, 30],
+    });
+
+    const driverMarker = L.marker(driverPos, { icon: driverIcon }).addTo(map);
+    const destMarker = hasDestPos ? L.marker(destPos, { icon: destIcon }).addTo(map) : null;
+    const routeLine = hasDestPos
+      ? L.polyline([driverPos, destPos], {
+          color: "#C24A08",
+          weight: 4,
+          dashArray: "1, 10",
+          lineCap: "round",
+          opacity: 0.85,
+        }).addTo(map)
+      : null;
+
+    if (hasDestPos) {
+      map.fitBounds(L.latLngBounds([driverPos, destPos]), { padding: [36, 36] });
+    }
+
+    entry = { map, driverMarker, destMarker, routeLine };
+    mapInstances.set(order.id, entry);
+  } else {
+    // Sudah ada instance map: cuma update posisi marker, jangan rebuild
+    entry.driverMarker.setLatLng(driverPos);
+    if (!entry.destMarker && hasDestPos) {
+      const destIcon = L.divIcon({
+        className: "lacak-map-dest-icon",
+        html: `<div class="lacak-map-dest"><i class="fa-solid fa-house"></i></div>`,
+        iconSize: [34, 34],
+        iconAnchor: [17, 30],
+      });
+      entry.destMarker = L.marker(destPos, { icon: destIcon }).addTo(entry.map);
+    }
+    if (hasDestPos) {
+      if (entry.routeLine) {
+        entry.routeLine.setLatLngs([driverPos, destPos]);
+      } else {
+        entry.routeLine = L.polyline([driverPos, destPos], {
+          color: "#C24A08",
+          weight: 4,
+          dashArray: "1, 10",
+          lineCap: "round",
+          opacity: 0.85,
+        }).addTo(entry.map);
+      }
+    }
+  }
+}
 
 export function mount(section, { user, db }) {
   const appHeader = document.getElementById("app-header");
@@ -124,6 +217,7 @@ export function mount(section, { user, db }) {
             .sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
 
           if (orders.length === 0) {
+            for (const id of Array.from(mapInstances.keys())) destroyMap(id);
             listEl.innerHTML = `
               <div class="lacak-empty">
                 <div class="lacak-empty-icon"><i class="fa-solid fa-inbox"></i></div>
@@ -158,20 +252,16 @@ export function mount(section, { user, db }) {
                     </div>
                   </div>
 
-                  <div class="lacak-map">
-                    <svg class="lacak-map-route" viewBox="0 0 300 120" preserveAspectRatio="none">
-                      <path d="M55,55 C130,30 170,105 250,90" fill="none" stroke="#F2833E" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 14" />
-                    </svg>
-                    <div class="lacak-map-driver"><i class="fa-solid fa-bag-shopping"></i></div>
-                    <div class="lacak-map-dest"><i class="fa-solid fa-house"></i></div>
-                  </div>
+                  ${buildDriverHtml(o)}
+
+                  <div class="lacak-map" id="lacak-map-${o.id}"></div>
 
                   <div class="lacak-timeline">
                     ${buildTimelineHtml(o)}
                   </div>
 
                   <div class="lacak-card-bottom">
-                    <span class="lacak-fee">Biaya jasa ${formatRupiah(o.fee)}</span>
+                    <span class="lacak-fee">Estimasi Biaya jasa ${formatRupiah(o.fee)}</span>
                     ${
                       o.status === "menunggu"
                         ? `<button class="lacak-cancel-btn" data-id="${o.id}">Batalkan</button>`
@@ -182,6 +272,26 @@ export function mount(section, { user, db }) {
               `;
             })
             .join("");
+
+          // Cleanup instance map buat order yang udah nggak tampil lagi (selesai/batal)
+          const activeIds = new Set(orders.map((o) => o.id));
+          for (const id of Array.from(mapInstances.keys())) {
+            if (!activeIds.has(id)) destroyMap(id);
+          }
+
+          // Render / update tiap map setelah container-nya ada di DOM
+          orders.forEach((o) => renderOrderMap(o));
+
+          listEl.querySelectorAll(".lacak-chat-btn").forEach((btn) => {
+            btn.addEventListener("click", () => {
+              setActiveChat({
+                driverUid: btn.dataset.driverUid,
+                driverName: btn.dataset.driverName,
+                driverFoto: btn.dataset.driverFoto || "",
+              });
+              window.location.hash = "#/chat-room";
+            });
+          });
 
           listEl.querySelectorAll(".lacak-cancel-btn").forEach((btn) => {
             btn.addEventListener("click", async () => {
@@ -215,11 +325,32 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
+function buildDriverHtml(order) {
+  if (order.status === "menunggu" || !order.driverUid) return "";
+  const name = escapeHtml(order.driverName || "Driver");
+  const foto = order.driverFoto
+    ? `<img src="${escapeHtml(order.driverFoto)}" alt="${name}" class="lacak-driver-photo">`
+    : `<div class="lacak-driver-photo lacak-driver-photo-fallback"><i class="fa-solid fa-user"></i></div>`;
+  return `
+    <div class="lacak-driver-card">
+      ${foto}
+      <div class="lacak-driver-info">
+        <span class="lacak-driver-label">Driver kamu</span>
+        <p class="lacak-driver-name">${name}</p>
+      </div>
+      <button class="lacak-chat-btn" data-driver-uid="${order.driverUid}" data-driver-name="${name}" data-driver-foto="${escapeHtml(order.driverFoto || "")}">
+        <i class="fa-solid fa-comment-dots"></i>
+      </button>
+    </div>
+  `;
+}
+
 export function unmount(section) {
   if (unsubscribe) {
     unsubscribe();
     unsubscribe = null;
   }
+  for (const id of Array.from(mapInstances.keys())) destroyMap(id);
   const appHeader = document.getElementById("app-header");
   if (appHeader) appHeader.hidden = false;
   section.innerHTML = "";
