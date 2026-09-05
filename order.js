@@ -130,6 +130,19 @@ export function mount(section, { user, db }) {
   let selectedLat = null;
   let selectedLng = null;
 
+  const customerProfilePromise = (async () => {
+    try {
+      const { doc, getDoc } = await import(
+        "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
+      );
+      const snap = await getDoc(doc(db, "customers", user.uid));
+      return snap.exists() ? snap.data() : {};
+    } catch (err) {
+      console.error("Gagal ambil profil customer:", err);
+      return {};
+    }
+  })();
+
   const locationBtn = section.querySelector("#location-btn");
   const locationBtnLabel = section.querySelector("#location-btn-label");
   const mapWrap = section.querySelector("#location-map-wrap");
@@ -255,6 +268,8 @@ export function mount(section, { user, db }) {
         "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
       );
 
+      const customerProfile = await customerProfilePromise;
+
       const now = new Date();
       const etaFrom = new Date(now.getTime() + 45 * 60000);
       const etaTo = new Date(now.getTime() + 75 * 60000);
@@ -263,6 +278,8 @@ export function mount(section, { user, db }) {
 
       await addDoc(collection(db, "orders"), {
         customerUid: user.uid,
+        customerName: customerProfile.name || user.displayName || "Customer",
+        customerFoto: customerProfile.foto || user.photoURL || "",
         items,
         place,
         lat: selectedLat,
