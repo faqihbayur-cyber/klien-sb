@@ -67,6 +67,16 @@ export function mount(section, { user, db }) {
     window.location.hash = "#/chat-list";
   });
 
+  const headerNameEl = section.querySelector(".chatroom-name");
+  const headerAvatarEl = section.querySelector(".chatroom-avatar");
+
+  function updateHeaderProfile(name, foto) {
+    if (name && headerNameEl) headerNameEl.textContent = name;
+    if (foto && headerAvatarEl) {
+      headerAvatarEl.outerHTML = `<img src="${escapeHtml(foto)}" alt="${escapeHtml(name || "Driver")}" class="chatroom-avatar">`;
+    }
+  }
+
   const messagesEl = section.querySelector("#chatroom-messages");
   const formEl = section.querySelector("#chatroom-form");
   const inputEl = section.querySelector("#chatroom-input");
@@ -131,18 +141,27 @@ export function mount(section, { user, db }) {
         }).catch((err) => console.error(err));
       }
 
-      // Pastikan dokumen chat ada dulu (buat pertama kali kalau belum pernah chat)
-      // SEBELUM masang listener pesan / form kirim — kalau nggak, ada race:
-      // listener/kirim jalan duluan sementara dokumen chat-nya belum ke-create,
-      // jadi kena permission-denied karena dokumennya belum ada.
-      getDoc(chatRef)
+      let freshDriverName = chat.driverName || "";
+      let freshDriverFoto = chat.driverFoto || "";
+
+      getDoc(doc(db, "public_profiles", chat.driverUid))
+        .catch(() => null)
+        .then((profSnap) => {
+          if (profSnap && profSnap.exists()) {
+            const prof = profSnap.data();
+            if (prof.name) freshDriverName = prof.name;
+            if (typeof prof.photoURL === "string" && prof.photoURL) freshDriverFoto = prof.photoURL;
+            updateHeaderProfile(freshDriverName, freshDriverFoto);
+          }
+          return getDoc(chatRef);
+        })
         .then((snap) => {
           if (!snap.exists()) {
             return setDoc(chatRef, {
               customerUid: user.uid,
               driverUid: chat.driverUid,
-              driverName: chat.driverName || "Driver",
-              driverFoto: chat.driverFoto || "",
+              driverName: freshDriverName,
+              driverFoto: freshDriverFoto,
               lastMessage: "",
               lastMessageAt: serverTimestamp(),
               createdAt: serverTimestamp(),

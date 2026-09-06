@@ -79,6 +79,13 @@ export function mount(section, { user, db }) {
         createdAt: serverTimestamp(),
       });
 
+      await setDoc(doc(db, "public_profiles", user.uid), {
+        name,
+        photoURL: "",
+        role: "customer",
+        updatedAt: serverTimestamp(),
+      });
+
       window.location.hash = "#/home";
     } catch (err) {
       console.error(err);

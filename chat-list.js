@@ -1,5 +1,3 @@
-// chat-list.js — daftar chat customer dengan driver-driver yang pernah diajak ngobrol.
-// Mirip WhatsApp: nama driver + preview pesan terakhir, urut dari yang paling baru.
 
 import { setActiveChat } from "./chat-state.js";
 
@@ -114,7 +112,25 @@ export function mount(section, { user, db }) {
   }
 
   import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js").then(
-    ({ collection, query, where, orderBy, onSnapshot }) => {
+    ({ collection, query, where, orderBy, onSnapshot, doc, getDoc }) => {
+      async function enrichWithPublicProfiles(chats) {
+        const uids = [...new Set(chats.map((c) => c.driverUid).filter(Boolean))];
+        const snaps = await Promise.all(
+          uids.map((uid) => getDoc(doc(db, "public_profiles", uid)).catch(() => null))
+        );
+        const map = {};
+        uids.forEach((uid, i) => {
+          if (snaps[i] && snaps[i].exists()) map[uid] = snaps[i].data();
+        });
+        chats.forEach((c) => {
+          const p = map[c.driverUid];
+          if (p) {
+            if (p.name) c.driverName = p.name;
+            if (typeof p.photoURL === "string") c.driverFoto = p.photoURL;
+          }
+        });
+      }
+
       const q = query(
         collection(db, "chats"),
         where("customerUid", "==", user.uid),
@@ -123,8 +139,9 @@ export function mount(section, { user, db }) {
 
       unsubscribe = onSnapshot(
         q,
-        (snapshot) => {
+        async (snapshot) => {
           allChats = snapshot.docs.map((d) => d.data());
+          await enrichWithPublicProfiles(allChats);
           const term = searchInput.value.trim().toLowerCase();
           renderItems(term ? allChats.filter((c) => (c.driverName || "").toLowerCase().includes(term)) : allChats);
         },

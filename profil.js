@@ -221,6 +221,8 @@ export function mount(section, { user, auth, signOut, db }) {
       doc: firestoreMod.doc,
       getDoc: firestoreMod.getDoc,
       updateDoc: firestoreMod.updateDoc,
+      setDoc: firestoreMod.setDoc,
+      serverTimestamp: firestoreMod.serverTimestamp,
     };
     storageApi = {
       getStorage: storageMod.getStorage,
@@ -483,6 +485,12 @@ export function mount(section, { user, auth, signOut, db }) {
       });
       await authApi.updateProfile(user, { photoURL: url });
 
+      await firestoreApi.setDoc(
+        firestoreApi.doc(db, "public_profiles", user.uid),
+        { photoURL: url, role: "customer", updatedAt: firestoreApi.serverTimestamp() },
+        { merge: true }
+      );
+
       setAvatar(url);
       showSuccess("Foto profil berhasil diubah");
     } catch (err) {
@@ -508,6 +516,12 @@ export function mount(section, { user, auth, signOut, db }) {
         photoURL: null,
       });
       await authApi.updateProfile(user, { photoURL: null });
+
+      await firestoreApi.setDoc(
+        firestoreApi.doc(db, "public_profiles", user.uid),
+        { photoURL: "", role: "customer", updatedAt: firestoreApi.serverTimestamp() },
+        { merge: true }
+      );
 
       setAvatar(null);
       showSuccess("Foto profil berhasil dihapus");
@@ -622,6 +636,14 @@ export function mount(section, { user, auth, signOut, db }) {
         address: addressVal,
       });
       if (nameVal) await authApi.updateProfile(user, { displayName: nameVal });
+
+      if (nameVal) {
+        await firestoreApi.setDoc(
+          firestoreApi.doc(db, "public_profiles", user.uid),
+          { name: nameVal, role: "customer", updatedAt: firestoreApi.serverTimestamp() },
+          { merge: true }
+        );
+      }
 
       const heroNameEl = section.querySelector(".profil-name");
       const nameInfoEl = section.querySelector("#profil-info-name");
