@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /login.html
+Allow: /register.html
+Disallow: /index.html
+Disallow: /home.js
+Disallow: /lacak.js
+Disallow: /riwayat.js
+Disallow: /profil.js
+Disallow: /order.js
+Disallow: /chat-list.js
+Disallow: /chat-room.js
+
+Sitemap: https://suruhbeli.com/sitemap.xml
