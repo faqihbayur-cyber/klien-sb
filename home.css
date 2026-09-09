@@ -249,11 +249,199 @@
   margin: 0 0 18px;
 }
 
+.home-section {
+  margin: 26px 20px 0;
+}
+.home-section-title {
+  font-family: "Fredoka", sans-serif;
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--ink);
+  margin: 0 0 14px;
+}
+
+.home-category-scroll {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 2px 2px 6px;
+  scrollbar-width: none;
+}
+.home-category-scroll::-webkit-scrollbar {
+  display: none;
+}
+.home-category-item {
+  flex: 0 0 auto;
+  width: 74px;
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+.home-category-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: var(--orange-soft);
+  color: var(--orange-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  transition: transform 0.15s ease;
+}
+.home-category-item:active .home-category-icon {
+  transform: scale(0.92);
+}
+.home-category-item span {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.home-trending-scroll {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  overflow-y: visible;
+  margin-top: 15px;
+  padding: 20px 18px 6px;
+  margin-left: -18px;
+  margin-right: -18px;
+  scrollbar-width: none;
+  position: relative;
+  z-index: 2;
+}
+.home-trending-scroll::-webkit-scrollbar {
+  display: none;
+}
+.home-trending-item {
+  flex: 0 0 auto;
+  width: 116px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+.home-trending-photo {
+  position: relative;
+  width: 126px;
+  height: 126px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  border: 3px solid #fff;
+  box-shadow: 0 6px 16px rgba(43, 27, 16, 0.3);
+}
+.home-trending-photo img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.home-trending-badge {
+  position: absolute;
+  top: -15px;
+  right: -34px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  overflow: hidden;
+}
+.home-trending-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.home-trending-title {
+  display: inline-block;
+  margin: 8px 0 5px;
+  padding: 2px 10px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 8px;
+  font-family: "Fredoka", sans-serif;
+  font-weight: 700;
+  font-size: 13.5px;
+  color: #7a1210;
+  line-height: 1.4;
+}
+.home-trending-comment {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: fit-content;
+  margin: 0;
+  padding: 3px 10px;
+  background: linear-gradient(135deg, #ff5a3c, #c1121f);
+  border-radius: 20px;
+  box-shadow: 0 3px 8px rgba(193, 18, 31, 0.4);
+  font-family: "Fredoka", sans-serif;
+  font-weight: 700;
+  font-size: 10.5px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  line-height: 1.4;
+}
+.home-trending-comment i {
+  font-size: 10px;
+}
+
+.home-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #fff;
+  border-radius: 18px;
+  padding: 20px 18px;
+  box-shadow: rgba(149, 157, 165, 0.15) 0px 6px 18px;
+}
+.home-step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.home-step-num {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--orange), var(--orange-deep));
+  color: #fff;
+  font-family: "Fredoka", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.home-step-text b {
+  display: block;
+  font-family: "Fredoka", sans-serif;
+  font-size: 15px;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+.home-step-text p {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin: 0;
+  line-height: 1.4;
+}
+
 .home-trust-row {
   display: grid;
-  margin-top: 30px;
+  margin-top: 22px;
   grid-template-columns: repeat(4, 1fr);
-  padding: 26px 12px 4px;
+  padding: 18px 4px 0;
+  border-top: 1px solid rgba(43, 27, 16, 0.08);
 }
 .home-trust-item {
   display: flex;
