@@ -11,24 +11,9 @@ export function mount(section, { user, db }) {
   // saat aset (section.png, logo1.png, karakter.png) masih dimuat.
   section.innerHTML = getSkeletonHTML();
 
-  Promise.all([
-    preloadImages(["section.png", "logo1.png", "karakter.png"]),
-    fetchTrendingItems(db),
-  ]).then(([, trendingItems]) => {
-    renderHomeContent(section, { user, db, firstName, initial, trendingItems });
+  preloadImages(["section.png", "logo1.png", "karakter.png"]).then(() => {
+    renderHomeContent(section, { user, db, firstName, initial });
   });
-}
-
-async function fetchTrendingItems(db) {
-  try {
-    const { collection, query, where, getDocs } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
-    const q = query(collection(db, "banner"), where("status", "==", true));
-    const snap = await getDocs(q);
-    return snap.docs.map((docSnap) => docSnap.data());
-  } catch (err) {
-    console.error("Gagal ambil data trending:", err);
-    return [];
-  }
 }
 
 function preloadImages(srcs) {
@@ -79,32 +64,7 @@ function getSkeletonHTML() {
   `;
 }
 
-function renderHomeContent(section, { user, db, firstName, initial, trendingItems }) {
-  const trendingHTML = trendingItems.length
-    ? `
-        <div class="home-trending-scroll">
-          ${trendingItems
-            .map(
-              (item) => `
-            <button class="home-trending-item" data-cat="${item.judul || ""}">
-              <div class="home-trending-photo">
-                <img src="${item.visual?.first || ""}" alt="${item.judul || ""}" />
-                ${
-                  item.visual?.secondary
-                    ? `<div class="home-trending-badge"><img src="${item.visual.secondary}" alt="" /></div>`
-                    : ""
-                }
-              </div>
-              <p class="home-trending-title">${item.judul || ""}</p>
-              <p class="home-trending-comment"><i class="fa-solid fa-fire"></i>${item.comment || ""}</p>
-            </button>
-          `
-            )
-            .join("")}
-        </div>
-      `
-    : "";
-
+function renderHomeContent(section, { user, db, firstName, initial }) {
   section.innerHTML = `
     <div class="home-wrap">
       <div class="home-hero" style="background-image:url('section.png')">
@@ -120,8 +80,6 @@ function renderHomeContent(section, { user, db, firstName, initial, trendingItem
           <h1>Halo, ${firstName} <span class="home-wave"></span></h1>
           <p>Males keluar? <span class="home-highlight"><br>>>>> SuruhBeli</span> aja!</p>
         </div>
-
-        ${trendingHTML}
 
         <img src="karakter.png" alt="Kurir SuruhBeli" class="home-character" />
       </div>
@@ -244,10 +202,6 @@ function renderHomeContent(section, { user, db, firstName, initial, trendingItem
   section.querySelector("#order-btn").addEventListener("click", () => goToOrder());
 
   section.querySelectorAll(".home-category-item").forEach((btn) => {
-    btn.addEventListener("click", () => goToOrder(btn.dataset.cat));
-  });
-
-  section.querySelectorAll(".home-trending-item").forEach((btn) => {
     btn.addEventListener("click", () => goToOrder(btn.dataset.cat));
   });
 
