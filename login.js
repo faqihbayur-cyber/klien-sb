@@ -2,13 +2,10 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getAuth,
-  signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
-  sendPasswordResetEmail,
   setPersistence,
   browserLocalPersistence,
-  browserSessionPersistence,
   onAuthStateChanged,
   RecaptchaVerifier,
   signInWithPhoneNumber,
@@ -32,19 +29,10 @@ const REDIRECT_TARGET = "index.html";
 
 /* ---------- Element refs ---------- */
 
-const form = document.getElementById("login-form");
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
-const rememberMe = document.getElementById("remember-me");
-const submitBtn = document.getElementById("submit-btn");
-const submitLabel = document.getElementById("submit-label");
 const errorBox = document.getElementById("form-error");
-const togglePasswordBtn = document.getElementById("toggle-password");
 const googleBtn = document.getElementById("google-btn");
 const phoneBtn = document.getElementById("phone-btn");
-const forgotPasswordBtn = document.getElementById("forgot-password");
 const toast = document.getElementById("toast");
-
 /* ---------- Helpers ---------- */
 
 function showError(message) {
@@ -63,11 +51,6 @@ function showToast(message, type = "") {
   toast.hidden = false;
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => { toast.hidden = true; }, 3500);
-}
-
-function setLoading(isLoading) {
-  submitBtn.disabled = isLoading;
-  submitLabel.textContent = isLoading ? "Memproses..." : "Masuk";
 }
 
 function translateAuthError(error) {
@@ -91,48 +74,13 @@ function translateAuthError(error) {
   }
 }
 
-/* ---------- Toggle lihat password ---------- */
-
-togglePasswordBtn.addEventListener("click", () => {
-  const isHidden = passwordInput.type === "password";
-  passwordInput.type = isHidden ? "text" : "password";
-  togglePasswordBtn.setAttribute("aria-label", isHidden ? "Sembunyikan password" : "Tampilkan password");
-});
-
-/* ---------- Login email & password ---------- */
-
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  clearError();
-
-  const email = emailInput.value.trim();
-  const password = passwordInput.value;
-
-  if (!email || !password) {
-    showError("Email dan password wajib diisi.");
-    return;
-  }
-
-  setLoading(true);
-  try {
-    await setPersistence(auth, rememberMe.checked ? browserLocalPersistence : browserSessionPersistence);
-    await signInWithEmailAndPassword(auth, email, password);
-    showToast("Berhasil masuk!", "success");
-    window.location.href = REDIRECT_TARGET;
-  } catch (error) {
-    console.error(error);
-    showError(translateAuthError(error));
-    setLoading(false);
-  }
-});
-
 /* ---------- Login Google ---------- */
 
 googleBtn.addEventListener("click", async () => {
   clearError();
   try {
     const provider = new GoogleAuthProvider();
-    await setPersistence(auth, rememberMe.checked ? browserLocalPersistence : browserSessionPersistence);
+    await setPersistence(auth, browserLocalPersistence);
     await signInWithPopup(auth, provider);
     showToast("Berhasil masuk dengan Google!", "success");
     window.location.href = REDIRECT_TARGET;
@@ -269,25 +217,6 @@ verifyOtpBtn.addEventListener("click", async () => {
 
 backToPhoneBtn.addEventListener("click", () => {
   resetPhoneModal();
-});
-
-/* ---------- Lupa password ---------- */
-
-forgotPasswordBtn.addEventListener("click", async () => {
-  clearError();
-  const email = emailInput.value.trim();
-  if (!email) {
-    showError('Isi email kamu dulu, lalu tap "Lupa password?" lagi.');
-    emailInput.focus();
-    return;
-  }
-  try {
-    await sendPasswordResetEmail(auth, email);
-    showToast("Link reset password sudah dikirim ke " + email, "success");
-  } catch (error) {
-    console.error(error);
-    showError(translateAuthError(error));
-  }
 });
 
 /* ---------- Kalau sudah login, langsung lempar ke index ---------- */
