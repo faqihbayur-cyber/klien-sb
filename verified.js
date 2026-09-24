@@ -1,11 +1,11 @@
 // TODO: ganti dengan firebaseConfig dari Project settings > Your apps (project klien-5c5cb)
 const firebaseConfig = {
-  apiKey: "GANTI_INI",
+  apiKey: "AIzaSyBE5g9DrxN-ZAumkFQDSW2KknhYyuUXKUA",
   authDomain: "klien-5c5cb.firebaseapp.com",
   projectId: "klien-5c5cb",
-  storageBucket: "klien-5c5cb.appspot.com",
-  messagingSenderId: "GANTI_INI",
-  appId: "GANTI_INI"
+  storageBucket: "klien-5c5cb.firebasestorage.app",
+  messagingSenderId: "1047587810737",
+  appId: "1:1047587810737:web:a40f87b3b293b6747c6190",
 };
 
 firebase.initializeApp(firebaseConfig);
