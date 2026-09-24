@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verifikasi Akun - SuruhBeli</title>
+<link rel="icon" href="logo.png">
+<link rel="stylesheet" href="verified.css">
+</head>
+<body>
+
+  <div class="card">
+    <img src="logo.png" alt="SuruhBeli" class="logo">
+
+    <div id="state-loading" class="state">
+      <div class="spinner"></div>
+      <p class="msg">Memproses permintaan...</p>
+    </div>
+
+    <div id="state-success" class="state hidden">
+      <div class="icon icon-success">&#10003;</div>
+      <h1>Berhasil!</h1>
+      <p class="msg" id="success-msg">Email kamu sudah diperbarui.</p>
+      <a id="open-app-btn" href="#" class="btn">Buka SuruhBeli</a>
+    </div>
+
+    <div id="state-error" class="state hidden">
+      <div class="icon icon-error">&#10007;</div>
+      <h1>Gagal</h1>
+      <p class="msg" id="error-msg">Link ini sudah tidak berlaku atau sudah pernah dipakai.</p>
+    </div>
+
+    <div id="state-generic" class="state hidden">
+      <div class="icon icon-success">&#10003;</div>
+      <h1>Selesai</h1>
+      <p class="msg">Permintaan kamu sudah diproses.</p>
+      <a id="open-app-btn-generic" href="#" class="btn">Buka SuruhBeli</a>
+    </div>
+  </div>
+
+  <p class="footer">SuruhBeli - Jastip lokal</p>
+
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+  <script src="verified.js"></script>
+</body>
+</html>
