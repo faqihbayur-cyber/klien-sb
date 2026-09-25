@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ajak Teman - SuruhBeli</title>
+  <link rel="icon" href="logo.png" />
+  <link rel="stylesheet" href="referal.css" />
+</head>
+<body>
+
+  <div class="page">
+    <header class="topbar">
+      <img src="logo.png" alt="SuruhBeli" class="logo" />
+      <span class="brand-name">SuruhBeli</span>
+    </header>
+
+    <main class="content">
+      <h1 id="heroTitle" class="hero-title">Kamu Diajak Gabung SuruhBeli!</h1>
+      <p id="heroSubtitle" class="hero-subtitle">
+        Jasa titip beli & antar yang cepat, aman, dan tanpa ribet.
+      </p>
+
+      <div id="codeBox" class="code-box" hidden>
+        <span class="code-label">Kode Referral</span>
+        <div class="code-row">
+          <span id="codeValue" class="code-value">------</span>
+          <button id="copyBtn" type="button" class="copy-btn">Salin</button>
+        </div>
+        <p class="code-hint">Masukin kode ini pas daftar akun buat dapat voucher ongkir Rp5.000</p>
+      </div>
+
+      <div id="noCodeBox" class="no-code-box" hidden>
+        <p>Download aplikasinya dan mulai jastip lebih gampang!</p>
+      </div>
+
+      <a id="downloadBtn" href="#" class="download-btn">
+        Download Aplikasi
+      </a>
+
+      <section class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-text">Download &amp; install aplikasi SuruhBeli</div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-text">Daftar akun baru</div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-text">Masukin kode referral di halaman "Ajak Teman"</div>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-text">Selesaikan order pertama, dapat voucher ongkir Rp5.000!</div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>&copy; SuruhBeli</span>
+    </footer>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="referal.js"></script>
+</body>
+</html>

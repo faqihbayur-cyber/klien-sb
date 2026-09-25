@@ -1,0 +1,206 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #FFF7EF;
+  color: #212121;
+}
+
+.page {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+}
+
+/* ---------- Topbar ---------- */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 20px;
+}
+
+.logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.brand-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #212121;
+}
+
+/* ---------- Content ---------- */
+
+.content {
+  flex: 1;
+  padding: 8px 24px 32px;
+  text-align: center;
+}
+
+.hero-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 12px 0 8px;
+  color: #212121;
+}
+
+.hero-subtitle {
+  font-size: 14px;
+  color: #757575;
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+/* ---------- Kode referral ---------- */
+
+.code-box {
+  background: #FFEDDC;
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.no-code-box {
+  background: #FFEDDC;
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #6B5541;
+}
+
+.code-label {
+  display: block;
+  font-size: 13px;
+  color: #6B5541;
+  margin-bottom: 6px;
+}
+
+.code-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.code-value {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: #212121;
+}
+
+.copy-btn {
+  border: 1px solid #FF7A29;
+  background: transparent;
+  color: #FF7A29;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.copy-btn:active {
+  background: #FF7A29;
+  color: #FFFFFF;
+}
+
+.code-hint {
+  font-size: 12px;
+  color: #8A7563;
+  margin: 10px 0 0;
+  line-height: 1.4;
+}
+
+/* ---------- Download button ---------- */
+
+.download-btn {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  background: #FF7A29;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 26px;
+  text-decoration: none;
+  margin-bottom: 32px;
+  box-shadow: 0 8px 18px rgba(255, 122, 41, 0.28);
+}
+
+.download-btn:active {
+  opacity: 0.85;
+}
+
+/* ---------- Steps ---------- */
+
+.steps {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.step-number {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #FF7A29;
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-text {
+  font-size: 14px;
+  color: #424242;
+  line-height: 1.5;
+  padding-top: 3px;
+}
+
+/* ---------- Footer ---------- */
+
+.footer {
+  text-align: center;
+  padding: 16px;
+  font-size: 12px;
+  color: #B0A79C;
+}
+
+/* ---------- Toast ---------- */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  background: #212121;
+  color: #FFFFFF;
+  font-size: 13px;
+  padding: 10px 18px;
+  border-radius: 20px;
+  z-index: 999;
+}
